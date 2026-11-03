@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Video Generator - B2 Studio</title>
+<style>
+body{background:#0f0f0f;color:white;font-family:sans-serif;text-align:center;padding:20px}
+input{width:90%;padding:15px;font-size:18px;border-radius:10px;border:none;margin:10px}
+button{padding:15px 30px;font-size:20px;background:#00ff88;color:black;border:none;border-radius:10px;font-weight:bold}
+#videoBox{margin-top:20px}
+video{width:90%;max-width:400px;border-radius:15px;margin-top:10px}
+canvas{display:none}
+</style>
+</head>
+<body>
+<h1>🎬 B2 Text to Video AI</h1>
+<p>Type anything, it makes video (Free, No API)</p>
+<input id="prompt" placeholder="Example: Zombie Escape in Karachi">
+<br>
+<button onclick="makeVideo()">Generate Video ▶️</button>
+<div id="videoBox"></div>
+<canvas id="canvas" width="720" height="1280"></canvas>
+<script>
+function makeVideo(){
+let text=document.getElementById('prompt').value;
+if(!text) text="Zombie Escape";
+let canvas=document.getElementById('canvas');
+let ctx=canvas.getContext('2d');
+let stream=canvas.captureStream(30);
+let recorder=new MediaRecorder(stream,{mimeType:'video/webm'});
+let chunks=[];
+recorder.ondataavailable=e=>chunks.push(e.data);
+recorder.onstop=()=>{
+ let blob=new Blob(chunks,{type:'video/webm'});
+ let url=URL.createObjectURL(blob);
+ document.getElementById('videoBox').innerHTML=`<h3>✅ Video Ready!</h3><video controls autoplay loop src="${url}"></video><br><br><a href="${url}" download="b2-video.webm"><button>⬇️ Download Video</button></a><p>Post this to YouTube Shorts!</p>`;
+};
+recorder.start();
+let frame=0;
+let duration=3000;
+let start=Date.now();
+function draw(){
+ let elapsed=Date.now()-start;
+ let grad=ctx.createLinearGradient(0,0,0,1280);
+ grad.addColorStop(0,'#1a1a2e');
+ grad.addColorStop(1,'#16213e');
+ ctx.fillStyle=grad;
+ ctx.fillRect(0,0,720,1280);
+ ctx.fillStyle='#00ff88';
+ ctx.font='bold 60px Arial';
+ ctx.textAlign='center';
+ ctx.fillText('B2 STUDIO',360,300);
+ ctx.fillStyle='white';
+ ctx.font='bold 40px Arial';
+ let words=text.split(' ');
+ for(let i=0;i<words.length;i++){
+   ctx.fillText(words[i],360,500+i*60);
+ }
+ ctx.font='20px Arial';
+ ctx.fillText(frame+'',360,1200);
+ frame++;
+ if(elapsed<duration) requestAnimationFrame(draw);
+ else recorder.stop();
+}
+draw();
+}
+</script>
+<br><br>
+<a href="index.html"><button style="background:white">⬅️ Back to B2 Studio</button></a>
+</body>
+  </html>
