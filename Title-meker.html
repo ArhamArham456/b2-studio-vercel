@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Viral Title Maker - B2 Studio</title>
+<style>
+body{background:#0f0f0f;color:white;font-family:sans-serif;padding:20px;text-align:center}
+input{width:90%;padding:15px;font-size:18px;border-radius:10px;border:none;margin:10px}
+button{padding:15px 30px;font-size:18px;background:#ff0055;color:white;border:none;border-radius:10px;font-weight:bold;margin:5px}
+.card{background:#1a1a1a;padding:15px;margin:10px 0;border-radius:10px;text-align:left;border-left:4px solid #00ff88}
+.copyBtn{background:#333;font-size:14px;padding:8px 15px}
+</style>
+</head>
+<body>
+<h1>🚀 Viral Title Maker</h1>
+<p>For YouTube Shorts - Get 10x more views</p>
+<input id="topic" placeholder="Example: GTA, Zombie, Minecraft">
+<br>
+<button onclick="makeTitles()">Generate 10 Viral Titles 🔥</button>
+<div id="result" style="margin-top:20px"></div>
+
+<script>
+function makeTitles(){
+let t=document.getElementById('topic').value;
+if(!t) t="GTA";
+let titles=[
+`I Tried ${t} In Minecraft And This Happened 😱 #shorts`,
+`${t} But In Real Life Is TERRIFYING 😨`,
+`No One Can Survive This ${t} Challenge - Part 5`,
+`POV: You Escape ${t} At 3AM...`,
+`${t} In Minecraft Hits Different 🔥`,
+`This ${t} Secret Will Blow Your Mind! 🤯`,
+`I Spent 24 Hours Doing ${t} - Gone Wrong`,
+`${t} Escape Part ${Math.floor(Math.random()*20+6)} - You Won't Believe!`,
+`How To Survive ${t} In 2026 - Tutorial`,
+`${t} x Bryant Burn Is INSANE! 💀`
+];
+let html="";
+titles.forEach((title,i)=>{
+html+=`<div class="card"><b>${i+1}. ${title}</b><br><button class="copyBtn" onclick="navigator.clipboard.writeText('${title}')">Copy</button></div>`;
+});
+html+=`<br><div style="background:#00ff88;color:black;padding:15px;border-radius:10px"><b>TIP:</b> Use Title #1 for your 7PM PST post today! Add #shorts #viral</div>`;
+document.getElementById('result').innerHTML=html;
+}
+</script>
+<br><br>
+<a href="index.html"><button style="background:white;color:black">⬅️ Back</button></a>
+<a href="video-generator.html"><button style="background:#00ff88;color:black">Go to Video App ➡️</button></a>
+</body>
+  </html>
